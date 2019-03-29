@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
@@ -24,20 +24,19 @@ public class User {
     @Column
     private String surname;
     @Column
-    private String email;
+    private String number;
     @Column
-    private String password;
+    private String email;
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @Column(name = "born_date")
-    private Date bornDate;
+    @Column
+    private String password;
     @Column(name = "user_type")
     @Enumerated(EnumType.STRING)
     private UserType userType;
     @Column(name = "pic_url")
     private String picUrl;
-    @Column(name = "created_date")
-    private Date createdDate;
+
 
 }

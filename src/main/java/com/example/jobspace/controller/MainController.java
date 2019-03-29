@@ -16,6 +16,11 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/")
+    public String main() {
+        return "index";
+    }
+
     @GetMapping("/worker")
     public String workerPage(ModelMap modelMap,
                            @AuthenticationPrincipal

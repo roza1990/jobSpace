@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .formLogin()
-                .loginPage("/login")
+                //.loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()

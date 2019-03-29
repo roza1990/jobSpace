@@ -8,6 +8,7 @@
 @import url("../plugins/jquery-nice-select/css/nice-select.css");
 @import url("fileinput.min.css");
 @import url("../plugins/flag-icon-css-master/css/flag-icon.css");
+.fas.fa-user{font-size:10px;}
 html {
   font-family: sans-serif;
   line-height: 1.15;

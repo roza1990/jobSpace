@@ -2,5 +2,5 @@ package com.example.jobspace.model;
 
 public enum UserType {
     EMPLOYER,
-    WORKER
+    JOBSEACKER
 }

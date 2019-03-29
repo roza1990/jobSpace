@@ -38,6 +38,12 @@ public class UserController {
     private EmailService emailService;
 
 
+
+    @GetMapping("/register")
+    public String registerForm (){
+        return "registration";
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute User user , @RequestParam("picture") MultipartFile file) throws IOException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -46,10 +52,10 @@ public class UserController {
         file.transferTo(picture);
         user.setPicUrl(fileName);
         userRepository.save(user);
-        emailService.sendSimpleMessage(user.getEmail(),
-                "Բարի Գալուստ " + user.getName(),
-                "Դուք Հաջողությամբ գրանցվել եք!");
-        return "redirect:/";
+//        emailService.sendSimpleMessage(user.getEmail(),
+//                "Բարի Գալուստ " + user.getName(),
+//                "Դուք Հաջողությամբ գրանցվել եք!");
+        return "redirect:/login";
     }
 
 
