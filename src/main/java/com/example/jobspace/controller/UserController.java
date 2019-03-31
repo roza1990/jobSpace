@@ -10,17 +10,20 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -40,22 +43,24 @@ public class UserController {
 
 
     @GetMapping("/register")
-    public String registerForm (){
+    public String registerForm (ModelMap map){
+        List<User> all =  userRepository.findAll();
+        map.addAttribute("users", all);
         return "registration";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user , @RequestParam("picture") MultipartFile file) throws IOException {
+    public String register(RedirectAttributes redirectAttributes, @ModelAttribute User user , @RequestParam("picture") MultipartFile file) throws IOException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         File picture = new File(imageUploadDir + File.separator + fileName);
         file.transferTo(picture);
         user.setPicUrl(fileName);
         userRepository.save(user);
-//        emailService.sendSimpleMessage(user.getEmail(),
-//                "Բարի Գալուստ " + user.getName(),
-//                "Դուք Հաջողությամբ գրանցվել եք!");
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute("message", "You are registered successfully!");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+        return "redirect:/";
     }
 
 
@@ -72,4 +77,6 @@ public class UserController {
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
     }
+
+
 }
