@@ -4,6 +4,7 @@ import com.example.jobspace.model.UserType;
 import com.example.jobspace.security.SpringUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -40,7 +41,7 @@ public class MainController {
 
     @GetMapping("/loginSuccess")
     public String loginSuccess(@AuthenticationPrincipal
-                                       SpringUser springUser,ModelMap modelMap) {
+                                       SpringUser springUser, Model modelMap) {
         modelMap.addAttribute("user",springUser);
         if (springUser.getUser().getUserType() == UserType.EMPLOYER) {
             return "redirect:/employer";
