@@ -42,6 +42,8 @@
                                                                 <a href="/account"><i class="icon-home"></i> Personal Account
 
                                                         </a>
+                                                        <li><span th:if="${user!=null}" th:text="${user.username}"></span>
+                                                </li>
                                                         </li>
                                                         <li class="dropdown-item"><a href="/login"><i class="icon-th-thumb"></i> Login </a>
                                                         </li>

@@ -24,16 +24,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
+                .   defaultSuccessUrl("/loginSuccess")
+
                 .permitAll()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .and()
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/admin").hasAuthority("ADMIN");
+                .authorizeRequests();
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/register").permitAll()
+//                .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
+//                .antMatchers("/admin").hasAuthority("ADMIN");
     }
 
     @Override

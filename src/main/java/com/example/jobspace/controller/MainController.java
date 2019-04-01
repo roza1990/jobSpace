@@ -17,7 +17,11 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String main() {
+    public String main( ModelMap modelMap, @AuthenticationPrincipal
+                                     SpringUser springUser) {
+        if(springUser!=null){
+          modelMap.addAttribute("user",springUser)  ;
+        }
         return "index";
     }
 
@@ -36,11 +40,13 @@ public class MainController {
 
     @GetMapping("/loginSuccess")
     public String loginSuccess(@AuthenticationPrincipal
-                                       SpringUser springUser) {
+                                       SpringUser springUser,ModelMap modelMap) {
+        modelMap.addAttribute("user",springUser);
         if (springUser.getUser().getUserType() == UserType.EMPLOYER) {
             return "redirect:/employer";
         }
-        return "redirect:/worker";
+
+        return "redirect:/";
 
     }
 }
