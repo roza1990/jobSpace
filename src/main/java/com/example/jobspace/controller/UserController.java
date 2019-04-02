@@ -71,7 +71,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/getImage")
+    @GetMapping("/getImages")
     public void getImageAsByteArray(HttpServletResponse response, @RequestParam("picUrl") String picUrl) throws IOException {
         InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);

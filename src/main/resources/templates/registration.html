@@ -133,7 +133,7 @@
 
                 <div class="col-md-4 reg-sidebar">
                     <div class="reg-sidebar-inner text-center">
-                        <div class="promo-text-box" th:each="user : ${users}">
+                        <div class="promo-text-box" th:if="${users != null}" th:each="user : ${users}">
 
                             <h3><strong th:text="${user.name}"></strong></h3>
 
