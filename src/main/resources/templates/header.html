@@ -43,7 +43,7 @@
                                                                 <a href="/account"><i class="icon-home"></i> Personal Account
 
                                                         </a>
-                                                        <li><span th:if="${user!=null}" th:text="${user.username}"></span>
+                                                        <li><span th:if="${user!=null}" th:text="${user.name}"></span>
                                                 </li>
                                                         </li>
                                                         <li class="dropdown-item"><a href="/login"><i class="icon-th-thumb"></i> Login </a>
@@ -59,7 +59,6 @@
                                         <li class="dropdown  lang-menu nav-item">
                                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
                                                         <span class="lang-title">EN</span>
-
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right user-menu" role="menu">
                                                         <li class="dropdown-item"><a class="active">

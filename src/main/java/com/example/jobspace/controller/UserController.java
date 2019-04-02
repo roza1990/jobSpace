@@ -1,7 +1,10 @@
 package com.example.jobspace.controller;
 
+import com.example.jobspace.model.Gender;
 import com.example.jobspace.model.User;
+import com.example.jobspace.model.UserType;
 import com.example.jobspace.repository.UserRepository;
+import com.example.jobspace.security.SpringUser;
 import com.example.jobspace.service.EmailService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,15 +36,13 @@ import java.util.List;
 @Controller
 public class UserController {
 
+
+  @Value("${image.upload.dir}")
+  private String imageUploadDir;
   @Autowired
   private Facebook facebook;
   @Autowired
   private ConnectionRepository connectionRepository;
-
-
-  @Value("${image.upload.dir}")
-  private String imageUploadDir;
-
   @Autowired
   private PasswordEncoder passwordEncoder;
 
@@ -49,6 +52,26 @@ public class UserController {
   @Autowired
   private EmailService emailService;
 
+  @GetMapping("/loginSuccess")
+  public String loginSuccess(@AuthenticationPrincipal
+      SpringUser springUser, HttpServletRequest request) {
+    if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
+      return "redirect:/connect/facebook";
+    }
+    org.springframework.social.facebook.api.User user = facebook.userOperations().getUserProfile();
+
+    User user1 = new User(user.getFirstName(), user.getLastName(), "0444",user.getFirstName()+"."+user.getLastName()+".gmail.com",
+        Gender.FEMALE, "facebook", UserType.EMPLOYER,"dddd");
+    userRepository.save(user1);
+    request.getSession().setAttribute("user", user != null ? user : springUser.getUser());
+    if (springUser != null) {
+      if (springUser.getUser().getUserType() == UserType.EMPLOYER) {
+        return "redirect:/employer";
+      }
+    }
+    return "redirect:/";
+
+  }
 
   @GetMapping("/register")
   public String registerForm(ModelMap map) {
@@ -58,8 +81,8 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public String register(RedirectAttributes redirectAttributes, @ModelAttribute User user,
-      @RequestParam("picture") MultipartFile file) throws IOException {
+  public String register(RedirectAttributes redirectAttributes,@ModelAttribute User user,
+      @RequestParam("picture") MultipartFile file,BindingResult buldingResult) throws IOException {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
     File picture = new File(imageUploadDir + File.separator + fileName);
