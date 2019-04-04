@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+     layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
 
- Worker| <a href="/logout">Logout</a>
-</body>
-</html>
+
+    <span th:if="${user!=null}" th:text="${user.name}"></span>
+    iiiiiiiiiiiiiiiii
+    uuuuuuuuuuu
+
+
+</div>

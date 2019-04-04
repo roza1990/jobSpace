@@ -1,0 +1,14 @@
+<div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+     layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
+
+<span sec:authorize="isAuthenticated()">
+                                                                This content is only shown to authenticated users.
+                                                        </span>
+<span sec:authorize="hasRole('ROLE_ADMIN')">
+                                                                This content is only shown to administrators.
+                                                        </span>
+<span sec:authorize="hasRole('ROLE_WORKER')">
+                                                                This content is only shown to users.
+                                                        </span>
+
+</div>

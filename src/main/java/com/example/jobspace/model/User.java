@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 @Data
@@ -22,6 +23,7 @@ public class User {
     @Column
     private String name;
     @Column
+    @Size(min = 5)
     private String surname;
     @Column
     private String number;
